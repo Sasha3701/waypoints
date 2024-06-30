@@ -1,0 +1,32 @@
+label {
+  display: flex;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 6px;
+  border: 1px solid #d1d0d0;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease-in;
+  text-overflow: ellipsis;
+
+  &::placeholder {
+    color: #c9c6c6;
+    opacity: 1; /* Firefox */
+  }
+
+  &:hover {
+    border-color: #b8b6b6;
+  }
+}
+
+.icon {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  width: 16px;
+  height: 16px;
+}
