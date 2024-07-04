@@ -3,7 +3,6 @@ import { useCallback, useState } from "react";
 
 import { CreateWaypoint, Map, Panel, Waypoints } from "./components";
 import { useWaypoints } from "./hooks";
-import { API_KEY } from "./constants";
 import styles from "./App.module.scss";
 
 export const App = () => {
@@ -25,7 +24,7 @@ export const App = () => {
   }
 
   return (
-    <YMaps query={{ apikey: API_KEY }}>
+    <YMaps>
       <Panel>
         <CreateWaypoint onAdd={onAdd} map={map} />
         <Waypoints onMove={onMove} onRemove={onRemove} waypoints={waypoints} />
