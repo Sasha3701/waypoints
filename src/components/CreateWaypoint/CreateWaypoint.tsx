@@ -3,40 +3,27 @@ import { useState, type KeyboardEvent, type ChangeEvent, memo } from "react";
 import { type IWaypoint } from "src/types";
 import srcSearch from "src/assets/search.svg";
 import styles from "./CreateWaypoint.module.scss";
-import { useYMaps } from "@pbe/react-yandex-maps";
 
 interface IProps {
   readonly onAdd: (waypoint: IWaypoint) => void;
+  readonly map: ymaps.Map | null;
 }
 
-export const CreateWaypoint = memo(({ onAdd }: IProps) => {
-  const ymaps = useYMaps(["Map", "geocode"]);
+export const CreateWaypoint = memo(({ onAdd, map }: IProps) => {
   const [value, setValue] = useState<string>("");
 
   const handlePressEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (ymaps && e.code === "Enter" && value.trim()) {
-      try {
-        const data = await ymaps.geocode(value, { results: 1 });
-        const firstGeoObject = data.geoObjects.get(0);
-        const position = (
-          firstGeoObject?.geometry as unknown as {
-            getCoordinates: () => [number, number];
-          }
-        )?.getCoordinates();
+    if (map && e.code === "Enter" && value.trim()) {
+      const position = map.getCenter() as [number, number];
 
-        const waypoint: IWaypoint = {
-          id: JSON.stringify(position),
-          position: position,
-          description: value,
-        };
+      const waypoint: IWaypoint = {
+        id: JSON.stringify(position),
+        description: value,
+        position,
+      };
 
-        onAdd(waypoint);
-      } catch (e) {
-        // В будущем добавить 'красивую' обработку ошибки(notification, alert и т.д.)
-        console.log(e);
-      } finally {
-        setValue("");
-      }
+      onAdd(waypoint);
+      setValue("");
     }
   };
 

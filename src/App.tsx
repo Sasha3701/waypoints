@@ -8,6 +8,7 @@ import styles from "./App.module.scss";
 
 export const App = () => {
   const [errorLoadMap, setErrorLoadMap] = useState<string | null>(null);
+  const [map, setMap] = useState<ymaps.Map | null>(null);
 
   const { onAdd, onChangePosition, onMove, onRemove, waypoints } =
     useWaypoints();
@@ -17,6 +18,8 @@ export const App = () => {
     [],
   );
 
+  const handleMap = useCallback((map: ymaps.Map) => setMap(map), []);
+
   if (errorLoadMap) {
     return <div className={styles.error}>{errorLoadMap}</div>;
   }
@@ -24,10 +27,11 @@ export const App = () => {
   return (
     <YMaps query={{ apikey: API_KEY }}>
       <Panel>
-        <CreateWaypoint onAdd={onAdd} />
+        <CreateWaypoint onAdd={onAdd} map={map} />
         <Waypoints onMove={onMove} onRemove={onRemove} waypoints={waypoints} />
       </Panel>
       <Map
+        onMap={handleMap}
         onError={handleError}
         onChangePosition={onChangePosition}
         waypoints={waypoints}
