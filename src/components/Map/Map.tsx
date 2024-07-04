@@ -91,7 +91,7 @@ export const Map = memo(({ onError, onChangePosition, waypoints }: IProps) => {
 
                       onChangePosition(waypoint, newWaypoint);
                     });
-                  }, 2000)();
+                  }, 1000)();
                 }
               });
             }
